@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ TICPY Framework
+ Copyright (C) 2012 Plan Director TICs
+ 
+ ============================================================================
+ Originally developed by SERPRO
+ Demoiselle Framework
+ Copyright (C) 2010 SERPRO
+ 
+ ============================================================================
+ This file is part of TICPY Framework.
+ 
+ TICPY Framework is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public License version 3
+ as published by the Free Software Foundation.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public License version 3
+ along with this program; if not,  see <http://www.gnu.org/licenses/>
+ or write to the Free Software Foundation, Inc., 51 Franklin Street,
+ Fifth Floor, Boston, MA  02110-1301, USA.
+ 
+ ============================================================================
+ Este archivo es parte del Framework TICPY.
+ 
+ El TICPY Framework es software libre; Usted puede redistribuirlo y/o
+ modificarlo bajo los términos de la GNU Lesser General Public Licence versión 3
+ de la Free Software Foundation.
+ 
+ Este programa es distribuido con la esperanza que sea de utilidad,
+ pero sin NINGUNA GARANTÍA; sin una garantía implícita de ADECUACION a cualquier
+ MERCADO o APLICACION EN PARTICULAR. vea la GNU General Public Licence
+ más detalles.
+ 
+ Usted deberá haber recibido una copia de la GNU Lesser General Public Licence versión 3
+ "LICENCA.txt", junto con este programa; en caso que no, acceda a <http://www.gnu.org/licenses/>
+ o escriba a la Free Software Foundation (FSF) Inc.,
+ 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
+-->
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.ticpy.tekoporu</groupId>
+	<artifactId>tekoporu-parent</artifactId>
+	<version>8</version>
+	<packaging>pom</packaging>
+
+
+	<name>Tekoporu Parent</name>
+	<description>
+		Contiene información común a todos los componentes del Framework Tekoporu (framework,
+		components, etc). 
+		Si usted es un usuario de Tekoporu, seguramente este POM no le servirá.
+	</description>
+	<url>http://www.datosparaguay.org</url>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 3</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SENATICS - Secretaría Nacional de Tecnologías de la Información y Comunicación</name>
+		<url>http://www.senatics.gov.py</url>
+	</organization>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/*.jasper</exclude>
+					<exclude>**/*.jpg</exclude>
+					<exclude>**/*.png</exclude>
+					<exclude>**/*.gif</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.jasper</include>
+					<include>**/*.jpg</include>
+					<include>**/*.png</include>
+					<include>**/*.gif</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>${wagon.plugin.version}</version>
+				<configuration>
+					<url>.</url>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>${maven.install.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>default-install</id>
+						<configuration>
+							<createChecksum>true</createChecksum>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.plugin.version}</version>
+					<configuration>
+						<target>${java.version}</target>
+						<source>${java.version}</source>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven.war.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven.deploy.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven.source.plugin.version}</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven.resources.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${maven.site.plugin.version}</version>
+					<configuration>
+						<inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+						<outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+						<locales>pt_BR</locales>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven.assembly.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven.javadoc.plugin.version}</version>
+					<executions>
+						<execution>
+							<id>jar</id>
+							<phase>package</phase>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>${maven.cobertura.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${eclipse.lifecycle.mapping.plugin.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-enforcer-plugin</artifactId>
+										<versionRange>[1.0,)</versionRange>
+										<goals>
+											<goal>enforce</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.10</version>
+					<configuration>
+					    <argLine>-XX:-UseSplitVerifier</argLine>
+					</configuration>
+			    </plugin> 
+			</plugins>
+		</pluginManagement>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>1.0-beta-7</version>
+			</extension>
+		</extensions>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>summary</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<repositories>
+		<repository>
+			<id>artifactory-snapshots</id>
+			<name>Tekoporu Maven Repository</name>
+			<url>http://www.datosparaguay.org/artifactory/libs-snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>artifactory-releases</id>
+			<name>Tekoporu Maven Repository</name>
+			<url>http://www.datosparaguay.org/artifactory/libs-release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+
+		
+		<!-- Legacy -->
+<!--
+		<repository>
+			<id>www.datosparaguay.org-release</id>
+			<url>http://www.datosparaguay.org/repository/release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>snapshot.sourceforge.net-release</id>
+			<url>http://www.datosparaguay.org/repository/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+-->
+		<repository>
+			<id>nexus.jboss.org</id>
+			<name>JBoss Maven Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>prime-repo</id>
+			<name>Prime Technology Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<!--<site>
+			<id>www.datosparaguay.org</id>
+			<url>${site.url}</url>
+		</site>-->
+		<repository>
+			<id>artifactory-releases-local</id>
+			<url>http://www.datosparaguay.org/artifactory/libs-release-local</url>
+		</repository>
+ 		<snapshotRepository>
+			<id>artifactory-snapshots-local</id>
+			<url>http://www.datosparaguay.org/artifactory/libs-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<maven.compiler.plugin.version>2.1</maven.compiler.plugin.version>
+		<maven.war.plugin.version>2.1.1</maven.war.plugin.version>
+		<maven.deploy.plugin.version>2.5</maven.deploy.plugin.version>
+		<maven.site.plugin.version>2.2</maven.site.plugin.version>
+		<maven.assembly.plugin.version>2.2-beta-5</maven.assembly.plugin.version>
+		<maven.javadoc.plugin.version>2.7</maven.javadoc.plugin.version>
+		<maven.source.plugin.version>2.1.2</maven.source.plugin.version>
+		<maven.resources.plugin.version>2.5</maven.resources.plugin.version>
+		<maven.cobertura.plugin.version>2.4</maven.cobertura.plugin.version>
+		<maven.install.plugin.version>2.3.1</maven.install.plugin.version>
+		<wagon.plugin.version>1.0-beta-3</wagon.plugin.version>
+		<eclipse.lifecycle.mapping.plugin.version>1.0.0</eclipse.lifecycle.mapping.plugin.version>
+
+		<java.version>1.7</java.version>
+
+		<site.url>file://${project.build.directory}/tmp</site.url>
+		<htdocs.url>sftp://web.sourceforge.net/home/project-web/demoiselle/htdocs</htdocs.url>
+		<repository.url>${htdocs.url}/repository/release</repository.url>
+		<snapshot.url>${htdocs.url}/repository/snapshot</snapshot.url>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+  <scm>
+    <tag>8</tag>
+  </scm>
+</project>

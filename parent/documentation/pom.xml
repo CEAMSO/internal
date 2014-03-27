@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ TICPY Framework
+ Copyright (C) 2012 Plan Director TICs
+ 
+ ============================================================================
+ Originally developed by SERPRO
+ Demoiselle Framework
+ Copyright (C) 2010 SERPRO
+ 
+ ============================================================================
+ This file is part of TICPY Framework.
+ 
+ TICPY Framework is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public License version 3
+ as published by the Free Software Foundation.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public License version 3
+ along with this program; if not,  see <http://www.gnu.org/licenses/>
+ or write to the Free Software Foundation, Inc., 51 Franklin Street,
+ Fifth Floor, Boston, MA  02110-1301, USA.
+ 
+ ============================================================================
+ Este archivo es parte del Framework TICPY.
+ 
+ El TICPY Framework es software libre; Usted puede redistribuirlo y/o
+ modificarlo bajo los términos de la GNU Lesser General Public Licence versión 3
+ de la Free Software Foundation.
+ 
+ Este programa es distribuido con la esperanza que sea de utilidad,
+ pero sin NINGUNA GARANTÍA; sin una garantía implícita de ADECUACION a cualquier
+ MERCADO o APLICACION EN PARTICULAR. vea la GNU General Public Licence
+ más detalles.
+ 
+ Usted deberá haber recibido una copia de la GNU Lesser General Public Licence versión 3
+ "LICENCA.txt", junto con este programa; en caso que no, acceda a <http://www.gnu.org/licenses/>
+ o escriba a la Free Software Foundation (FSF) Inc.,
+ 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
+-->
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>tekoporu-documentation-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.ticpy.tekoporu</groupId>
+		<artifactId>tekoporu-parent</artifactId>
+		<version>8</version>
+		<relativePath>../tekoporu</relativePath>
+	</parent>
+
+	<name>Documentation Parent</name>
+	<description>
+		Contém as informações comuns a todas as documentações do Tekoporu (framework,	components,
+		etc). Se você é usuário do Tekoporu, certamente este POM não servirá para você.
+	</description>
+	<url>http://www.datosparaguay.org</url>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 3</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SENATICS - Secretaría Nacional de Tecnologías de la Información y Comunicación</name>
+		<url>http://www.senatics.gov.py</url>
+	</organization>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${eclipse.lifecycle.mapping.plugin.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.jboss.maven.plugins</groupId>
+										<artifactId>maven-jdocbook-plugin</artifactId>
+										<versionRange>[2.3.5,)</versionRange>
+										<goals>
+											<goal>generate</goal>
+											<goal>resources</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!--
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<configuration>
+							<tasks>
+								<copy file="${basedir}/target/docbook/publish/pt-BR/pdf/${pdf.name}" todir="${basedir}" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<configuration>
+					<serverId>tekoporu.sourceforge.net</serverId>
+					<url>${htdocs.url}</url>
+					<fromDir>${project.build.directory}/docbook/publish/pt-BR</fromDir>
+					<toDir>docs/${project.context}/${project.version}</toDir>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jboss.maven.plugins</groupId>
+				<artifactId>maven-jdocbook-plugin</artifactId>
+				<extensions>true</extensions>
+				<version>${maven.jdocbook.plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.ticpy.tekoporu.documentation</groupId>
+						<artifactId>tekoporu-docbook-xslt</artifactId>
+						<version>2.0.1</version>
+					</dependency>
+					<dependency>
+						<groupId>org.ticpy.tekoporu.documentation</groupId>
+						<artifactId>tekoporu-jdocbook-style</artifactId>
+						<version>2.0.1</version>
+						<type>jdocbook-style</type>
+					</dependency>
+					<dependency>
+						<groupId>org.jboss</groupId>
+						<artifactId>jbossorg-jdocbook-style</artifactId>
+						<version>${jboss.docbook.version}</version>
+						<type>pom</type>
+					</dependency>
+					<dependency>
+						<groupId>org.jboss.weld</groupId>
+						<artifactId>weld-docbook-xslt</artifactId>
+						<version>${weld.docbook.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>seam-docbook-xslt</artifactId>
+						<version>${seam.docbook.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>seam-jdocbook-style</artifactId>
+						<version>${seam.docbook.version}</version>
+						<type>jdocbook-style</type>
+					</dependency>
+					<dependency>
+						<groupId>org.jboss</groupId>
+						<artifactId>jbossorg-jdocbook-style</artifactId>
+						<version>${jboss.docbook.version}</version>
+						<type>jdocbook-style</type>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<sourceDirectory>${project.basedir}</sourceDirectory>
+					<sourceDocumentName>master.xml</sourceDocumentName>
+					<masterTranslation>pt-BR</masterTranslation>
+					<imageResource>
+						<directory>${project.basedir}/pt-BR</directory>
+						<includes>
+							<include>images/*.png</include>
+						</includes>
+					</imageResource>
+					<formats>
+						<format>
+							<formatName>pdf</formatName>
+							<stylesheetResource>classpath:/xslt/br/gov/frameworkdemoiselle/pdf.xsl</stylesheetResource>
+							<finalName>${pdf.name}</finalName>
+						</format>
+						<format>
+							<formatName>html</formatName>
+							<stylesheetResource>classpath:/xslt/br/gov/frameworkdemoiselle/xhtml.xsl</stylesheetResource>
+							<finalName>index.html</finalName>
+						</format>
+						<format>
+							<formatName>html_single</formatName>
+							<stylesheetResource>classpath:/xslt/br/gov/frameworktekoporu/xhtml-single.xsl</stylesheetResource>
+							<finalName>index.html</finalName>
+						</format>
+					</formats>
+					<options>
+						<xmlTransformerType>saxon</xmlTransformerType>
+						<xincludeSupported>true</xincludeSupported>
+						<injectionDateFormat>dd/MM/yyyy</injectionDateFormat>
+						<docbookVersion>1.72.0</docbookVersion>
+					</options>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus.jboss.org</id>
+			<name>JBoss Maven Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>public-jboss</id>
+			<name>JBoss Public Maven Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>tekoporu.sourceforge.net</id>
+			<name>Tekoporu Maven Repository</name>
+			<url>http://www.datosparaguay.org/repository/release</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>snapshot.www.datosparaguay.org</id>
+			<name>Tekoporu Maven Repository</name>
+			<url>http://www.datosparaguay.org/repository/snapshot</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-releases</id>
+			<name>Sonatype Nexus Releases</name>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<properties>
+		<pdf.name>${project.artifactId}.pdf</pdf.name>
+
+		<maven.jdocbook.plugin.version>2.3.5</maven.jdocbook.plugin.version>
+		<eclipse.lifecycle.mapping.plugin.version>1.0.0</eclipse.lifecycle.mapping.plugin.version>
+
+		<weld.docbook.version>1.1.1-Beta5</weld.docbook.version>
+		<seam.docbook.version>1.1.0.GA</seam.docbook.version>
+		<jboss.docbook.version>1.1.1</jboss.docbook.version>
+	</properties>
+</project>

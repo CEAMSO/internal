@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ TICPY Framework
+ Copyright (C) 2012 Plan Director TICs
+ 
+ ============================================================================
+ Originally developed by SERPRO
+ Demoiselle Framework
+ Copyright (C) 2010 SERPRO
+ 
+ ============================================================================
+ This file is part of TICPY Framework.
+ 
+ TICPY Framework is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public License version 3
+ as published by the Free Software Foundation.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU Lesser General Public License version 3
+ along with this program; if not,  see <http://www.gnu.org/licenses/>
+ or write to the Free Software Foundation, Inc., 51 Franklin Street,
+ Fifth Floor, Boston, MA  02110-1301, USA.
+ 
+ ============================================================================
+ Este archivo es parte del Framework TICPY.
+ 
+ El TICPY Framework es software libre; Usted puede redistribuirlo y/o
+ modificarlo bajo los términos de la GNU Lesser General Public Licence versión 3
+ de la Free Software Foundation.
+ 
+ Este programa es distribuido con la esperanza que sea de utilidad,
+ pero sin NINGUNA GARANTÍA; sin una garantía implícita de ADECUACION a cualquier
+ MERCADO o APLICACION EN PARTICULAR. vea la GNU General Public Licence
+ más detalles.
+ 
+ Usted deberá haber recibido una copia de la GNU Lesser General Public Licence versión 3
+ "LICENCA.txt", junto con este programa; en caso que no, acceda a <http://www.gnu.org/licenses/>
+ o escriba a la Free Software Foundation (FSF) Inc.,
+ 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
+-->
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>tekoporu-build-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.ticpy.tekoporu</groupId>
+		<artifactId>tekoporu-parent</artifactId>
+		<version>8</version>
+		<relativePath>../../tekoporu</relativePath>
+	</parent>
+
+	<name>Tekoporu Build Aggregator Parent</name>
+	<description>
+		Contiene información de build común a todos los componentes del Framework Tekoporu (framework,
+		components, etc). 
+		Si usted es un usuario de Tekoporu, seguramente este POM no le servirá.
+	</description>
+	<url>http://www.datosparaguay.org</url>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 3</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>SENATICS - Secretaría Nacional de Tecnologías de la Información y Comunicación</name>
+		<url>http://www.senatics.gov.py</url>
+	</organization>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<configuration>
+					<serverId>www.datosparaguay.org</serverId>
+					<url>${upload.url}</url>
+					<fromDir>${project.build.directory}/assembly</fromDir>
+					<toDir>${project.context}/${project.version}</toDir>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<preparationGoals>clean install</preparationGoals>
+					<goals>${release.goals}</goals>
+					<releaseProfiles>sonatype-oss-release</releaseProfiles>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+					<siteDirectory>${basedir}/site</siteDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${maven.release.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<configuration>
+						<finalName>tekoporu-${project.alias}-${project.version}</finalName>
+						<outputDirectory>${project.build.directory}/assembly</outputDirectory>
+						<descriptors>
+							<descriptor>assembly/src.xml</descriptor>
+							<descriptor>assembly/bin.xml</descriptor>
+						</descriptors>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>assembly</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<scm>
+		<connection>scm:git:git://github.com/demoiselle/${project.alias}.git</connection>
+		<developerConnection>scm:git:git://github.com/demoiselle/${project.alias}.git</developerConnection>
+		<url>https://github.com/demoiselle/${project.alias}</url>
+	  <tag>8</tag>
+  </scm>
+
+	<repositories>
+		<repository>
+			<id>artifactory-snapshots</id>
+			<name>Tekoporu Maven Repository</name>
+			<url>http://www.datosparaguay.org/artifactory/libs-snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>artifactory-releases</id>
+			<name>Tekoporu Maven Repository</name>
+			<url>http://www.datosparaguay.org/artifactory/libs-release</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<properties>
+		<maven.release.plugin.version>2.3.2</maven.release.plugin.version>
+
+		<project.context>${project.alias}</project.context>
+		<site.unversioned.url>${htdocs.url}/${project.context}</site.unversioned.url>
+		<site.url>${site.unversioned.url}/${project.version}</site.url>
+		<release.goals>deploy wagon:upload site site:deploy</release.goals>
+		
+		<upload.url></upload.url>
+	</properties>
+</project>
